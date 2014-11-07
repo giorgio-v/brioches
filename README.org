@@ -1,0 +1,54 @@
+* Brioches
+
+  #+BEGIN_QUOTE
+  Let them eat cakes.
+  #+END_QUOTE
+
+  If you don’t get it, you don’t need to read further.
+
+** brioches.core-test
+   Clojure repo with to play with property-base testing. The
+   ~brioches.core-test~ shows a rather boring example with ~concat~.
+   The main point of this example is showing how you can completely
+   characterize the function with the basic algebraic properties.
+
+   One of these properties, namely ~assoc-closure?~, shows that
+   property-based testing can express and, more importantly, check
+   rather subtle aspects of functions under test: ~concat~ returns a
+   lazy seq and, by doing so, does not respect the closure property; on
+   the other hand, we can relax the post-conditions by requiring that
+   ~concat~ should return just a ~Sequential~ collection.
+
+   ~concat~ is a very basic function, but, just like traditional unit
+   testing drives the design toward testability, you can use
+   property-based testing as a proxy of the quality of your design.
+
+
+** brioches.core
+   One of the most crucial aspects of property-based testing is the
+   usage of generators. Here we show standard generators and
+   generators built upon Prismatic’s Schema.
+
+* Usage
+  Just use
+  #+BEGIN_SRC sh
+    lein repl
+  #+END_SRC
+
+  and then issue
+  #+BEGIN_SRC clojure
+    (reset)
+  #+END_SRC
+  to load the namespaces of the project.
+
+* Useful links
+  - [[http://www.eecs.northwestern.edu/~robby/courses/395-495-2009-fall/quick.pdf][QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs]]
+  - [[https://github.com/clojure/test.check][test.check]]
+  - [[http://hackage.haskell.org/package/QuickCheck][QuickCheck for Haskell]]
+  - [[http://www.quviq.com/index.html][QuickCheck for Erlang]]
+
+* License
+
+  Copyright © 2014 Giorgio Valoti
+
+  Distributed under the Eclipse Public License, the same as Clojure.
