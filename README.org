@@ -46,6 +46,7 @@
   - [[https://github.com/clojure/test.check][test.check]]
   - [[http://hackage.haskell.org/package/QuickCheck][QuickCheck for Haskell]]
   - [[http://www.quviq.com/index.html][QuickCheck for Erlang]]
+  - [[https://github.com/Prismatic/schema][Prismatic Schema]]
 
 * License
 
