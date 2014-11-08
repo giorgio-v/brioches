@@ -28,6 +28,14 @@
                 (= (concat (concat v1 v2) v3)
                    (concat v1 (concat v2 v3)))))
 
+(defspec assoc-and-cons-invariant
+  iterations
+  (prop/for-all [
+                 [h & more :as v1] (gen/vector gen/int)
+                 v2 (gen/vector gen/int)]
+                (= (concat (cons h more) v2)
+                   (cons h (concat more v2)))))
+
 (defspec assoc-closure?
   iterations
   (prop/for-all [v1 (gen/vector gen/int)
