@@ -196,4 +196,15 @@
                                           (every? (fn [[k v]] (= k v)) m)) 'equal-keys?)
                                        {s/Keyword s/Keyword}))))
 
+
+;; A rather contrived example with sum. The purpose was to break it in
+;; a way not detectable by the stated properties. We were unable to do
+;; it, but it remains to be seen if the properties set is
+;; necessary and sufficient.
+(defn sum
+  ([acc xs]
+     (if (seq xs)
+       (recur (+ (first xs) acc) (rest xs))
+       acc))
+  ([xs] (sum 0 xs)))
 

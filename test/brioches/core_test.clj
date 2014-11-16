@@ -43,3 +43,26 @@
                  v2 (gen/vector gen/int)]
                 (sequential? (concat v1 v2))))
 
+
+;; `sum' of a collection. Is this set of properties the minimal (i.e.
+;; necessary and sufficient) one?
+(defspec sum-base-case
+  ;; The sum of a singleton vector is equal to the single item.
+  iterations
+  (prop/for-all [n gen/int]
+                (= (sum [n]) n)))
+
+(defspec sum-monotonicity
+  ;; Adding a strictly positive integer to a collection should
+  ;; strictly increase the sum of the extended collection.
+  iterations
+  (prop/for-all [v (gen/vector gen/int)
+                 delta (gen/such-that #(> % 0) gen/pos-int)]
+                (> (sum (cons delta v)) (sum v))))
+
+(defspec sum-identity
+  ;; `0' is the identity value for `sum'.
+  iterations
+  (prop/for-all [v (gen/vector gen/int)
+                 identity (gen/return 0)]
+                (= (sum (cons identity v)) (sum v))))
