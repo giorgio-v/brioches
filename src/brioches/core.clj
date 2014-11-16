@@ -8,7 +8,7 @@
             [clojure.test.check.generators :as gen]))
 
 
-;; see  for details
+;; schema.core interop
 (defprotocol Generatable
   (generate [x] "return a generator for x"))
 
@@ -144,7 +144,7 @@
   schema.core.OptionalKey (generate [x] (gen/return (:k x))))
 
 
-;; examples
+;; schema.core examples
 
 ;; scalars
 (def gen-whatever (gen/sample (generate s/Any)))
@@ -160,8 +160,7 @@
 (def gen-symbols (gen/sample (generate s/Symbol)))
 (def gen-timestamps (gen/sample (generate s/Inst)))
 (def gen-uuids (gen/sample (generate s/Uuid)))
-;; some hacks with
-;; regexp. Too fragile, not a good idea
+;; some hacks with regexp. Too fragile, not a good idea
 (def gen-with-regexp (gen/sample (generate #"^\w+$")))
 (def gen-constant-keyword (gen/sample (generate :k)))
 (def gen-maybe-int (gen/sample (generate (s/maybe s/Int))))
@@ -208,3 +207,48 @@
        acc))
   ([xs] (sum 0 xs)))
 
+
+;; The Knapsack Problem
+;; http://www.learningclojure.com/2013/09/the-knapsack-problem-another-classic.html
+;; The rationale of this choice was to try to find a problem with some
+;; hard to verify but reasonably easy to write properties.
+
+;; Everything has a cost and a value.
+(defrecord Thing [cost value])
+
+(defn rate
+  "Return the total value of the collection of `Thing's `ts'."
+  [ts]
+  (reduce (fn [acc item] (+ acc (:value item))) 0 ts))
+
+(defn cost
+  "Return the total cost of the collection of `Thing's `ts'."
+  [ts]
+  (reduce (fn [acc item] (+ acc (:cost item))) 0 ts))
+
+(defn best-evaluation
+  "Finds the subsequence of `sorted-things' with the maximum value
+  within `budget'.
+
+  `sorted-things' should be sorted according the value that we want to
+  maximize. In this context, it could be `:value', `:cost' or some
+  kind of ratio between the two.
+
+  1. Create all the (progressively longer) subsequences of
+  `sorted-things'
+
+  2. Take the created subsequences whose total cost is within
+  budget.
+
+  3. Return the one the maximum value."
+  [sorted-things budget]
+  (->> sorted-things
+       (reductions conj '())              ; 1
+       (take-while #(<= (cost %) budget)) ; 2
+       last))                             ; 3
+
+(defn greedy-value
+  "Returns the subset of `ts' with the `best-evaluation' within
+  budget. The criterium used is to maximize `:value'."
+  [ts budget]
+  (best-evaluation (sort-by :value > ts) budget))
