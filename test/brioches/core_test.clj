@@ -9,6 +9,7 @@
 
 (def iterations 100)
 
+
 ;; Let’s test good old `assoc' with properties
 (defspec assoc-left-identity
   iterations
@@ -30,14 +31,15 @@
 
 (defspec assoc-and-cons-invariant
   iterations
-  (prop/for-all [
-                 [h & more :as v1] (gen/vector gen/int)
+  (prop/for-all [n gen/int
+                 v1 (gen/vector gen/int)
                  v2 (gen/vector gen/int)]
-                (= (concat (cons h more) v2)
-                   (cons h (concat more v2)))))
+                (= (concat (cons n v1) v2)
+                   (cons n (concat v1 v2)))))
 
 (defspec assoc-closure?
   iterations
   (prop/for-all [v1 (gen/vector gen/int)
                  v2 (gen/vector gen/int)]
                 (sequential? (concat v1 v2))))
+
