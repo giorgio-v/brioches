@@ -15,14 +15,13 @@
    One of these properties, namely ~assoc-closure?~, shows that
    property-based testing can express and, more importantly, check
    rather subtle aspects of functions under test: ~concat~ returns a
-   lazy seq and, by doing so, does not respect the closure property; on
-   the other hand, we can relax the post-conditions by requiring that
-   ~concat~ should return just a ~Sequential~ collection.
+   lazy seq and, by doing so, does not respect the algebraic closure
+   property; on the other hand, we can relax the post-conditions by
+   requiring that ~concat~ should return a ~Sequential~ collection.
 
-   ~concat~ is a very basic function, but, just like traditional unit
-   testing drives the design toward testability, you can use
-   property-based testing as a proxy of the quality of your design.
-
+   ~concat~ is a very basic function but it shows how you can use
+   property-based testing as a proxy of the quality of your design,
+   something like traditional unit testing.
 
 ** brioches.core
    One of the most crucial aspects of property-based testing is the
@@ -47,6 +46,8 @@
   - [[http://hackage.haskell.org/package/QuickCheck][QuickCheck for Haskell]]
   - [[http://www.quviq.com/index.html][QuickCheck for Erlang]]
   - [[https://github.com/Prismatic/schema][Prismatic Schema]]
+  - [[https://github.com/miner/herbert][Herbert, a Clojure library defining a schema for edn values]]
+  - https://github.com/gfredericks/test.chuck
 
 * License
 
